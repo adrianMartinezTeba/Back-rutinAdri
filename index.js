@@ -9,9 +9,9 @@ app.use(express.json())
 
 dbConnection()
 
-app.use("users", require("./routes/users"));
-app.use("routines", require("./routes/routines"));
-app.use("exercises", require("./routes/exercises"));
+app.use("/users", require("./routes/users"));
+app.use("/routines", require("./routes/routines"));
+app.use("/exercises", require("./routes/exercises"));
 
 app.get("/", (req, res) => {
     res.send("My name is adrian");
