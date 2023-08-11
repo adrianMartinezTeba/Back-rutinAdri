@@ -9,7 +9,7 @@ const UserController = {
       const password = await bcrypt.hash(req.body.password, 10)
       const user = await User.create({ ...req.body, password })
       const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '48h' })//incriptado email
-      const url = 'https://back-rutinadri-production.up.railway.app/users/confirmRegister/' + emailToken
+      const url = 'https://back-rutinadri-production.up.railway.app/users/confirmRegister/' + req.body.email
       await transporter.sendMail({
         to: req.body.email,
         subject: "Confirme su registro",
