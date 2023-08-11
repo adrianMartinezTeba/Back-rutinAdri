@@ -29,7 +29,7 @@ const UserController = {
       const payload = jwt.verify(token, process.env.JWT_SECRET); // Usar process.env.JWT_SECRET
   
       await User.findOneAndUpdate({ email: payload.email }, { confirmed: true });
-      res.status(201).send({ msg: "Usuario confirmado con éxito" });
+      res.status(201).send("Usuario confirmado con éxito" );
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
