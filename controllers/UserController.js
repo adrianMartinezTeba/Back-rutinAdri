@@ -9,7 +9,7 @@ const UserController = {
       const password = await bcrypt.hash(req.body.password, 10)
       const user = await User.create({ ...req.body, password })
       const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '48h' })//incriptado email
-      const url = 'https://back-rutinadri-production.up.railway.app/users/confirmRegister/' + req.body.email
+      const url = 'https://back-rutinadri-production.up.railway.app/users/confirmRegister/' + emailToken
       await transporter.sendMail({
         to: req.body.email,
         subject: "Confirme su registro",
@@ -19,17 +19,20 @@ const UserController = {
       }); res.status(201).send({ message: "Usuario registrado con exito", user });
     } catch (error) {
       console.error(error);
-     
+
     }
   },
   async confirm(req, res) {
     try {
-      const payload = jwt.verify(req.params.email, process.env.JWT_SECRET)//desincriptado email
+      const token = req.params.emailToken
+
+      const payload = jwt.verify(token, jwt_secret)
+    
       await User.findOneAndUpdate({ email: payload.email }, { confirmed: true });
-      res.status(201).send("Usuario confirmado con éxito");
+      res.status(201).send({ msg: "Usuario confirmado con éxito", });
     } catch (error) {
       console.error(error);
-      
+
     }
   },
   async login(req, res) {
@@ -37,9 +40,9 @@ const UserController = {
       const user = await User.findOne({
         email: req.body.email,
       })
-      if(!user){
-        return res.status(400).send({message:"Usuario o contraseña incorrectos"})
-        }
+      if (!user) {
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
+      }
       const isMatch = await bcrypt.compare(req.body.password, user.password);
       if (!isMatch) {
         return res.status(400).send({ message: "Usuario o contraseña incorrectos" })
@@ -56,66 +59,66 @@ const UserController = {
 
     }
   },
-    async logout(req, res) {
-      try {
-        //borrar todas las sesiones
-        // await User.findByIdAndUpdate(req.user._id, {
-        //     tokens: [] ,
-        //   });
-        await User.findByIdAndUpdate(req.user._id, {
-          $pull: { tokens: req.headers.authorization },
-        });
-        res.send({ message: "Desconectado con éxito" });
-      } catch (error) {
-        console.error(error);
-        res.status(500).send({
-          message: "Hubo un problema al intentar desconectar al usuario",
-        });
-      }
-    },
-    async getInfoById(req, res) {
-      try {
-        const user = await User.findById(req.user._id)
-        res.send(user);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async recoverPassword(req, res) {
-      try {
-        const recoverToken = jwt.sign({ email: req.params.email }, process.env.JWT_SECRET, {
-          expiresIn: "48h",
-        });
-        const url = process.env.URL +"/users/resetPassword/" + recoverToken;
-        await transporter.sendMail({
-          to: req.params.email,
-          subject: "Recuperar contraseña",
-          html: `<h3> Recuperar contraseña </h3>
+  async logout(req, res) {
+    try {
+      //borrar todas las sesiones
+      // await User.findByIdAndUpdate(req.user._id, {
+      //     tokens: [] ,
+      //   });
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { tokens: req.headers.authorization },
+      });
+      res.send({ message: "Desconectado con éxito" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Hubo un problema al intentar desconectar al usuario",
+      });
+    }
+  },
+  async getInfoById(req, res) {
+    try {
+      const user = await User.findById(req.user._id)
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async recoverPassword(req, res) {
+    try {
+      const recoverToken = jwt.sign({ email: req.params.email }, process.env.JWT_SECRET, {
+        expiresIn: "48h",
+      });
+      const url = process.env.URL + "/users/resetPassword/" + recoverToken;
+      await transporter.sendMail({
+        to: req.params.email,
+        subject: "Recuperar contraseña",
+        html: `<h3> Recuperar contraseña </h3>
     <a href="${url}">Recuperar contraseña</a>
     El enlace expirará en 48 horas
     `,
-        });
-        res.send({
-          message: "Un correo de recuperación se envio a tu dirección de correo",
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async resetPassword(req, res) {
-      try {
-        const recoverToken = req.params.recoverToken;
-        const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
-        await User.findOneAndUpdate(
-          { email: payload.email },
-          { password: req.body.password }
-        );
-        res.send({ message: "contraseña cambiada con éxito" });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  
-  };
-  
-  module.exports = UserController;
+      });
+      res.send({
+        message: "Un correo de recuperación se envio a tu dirección de correo",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  async resetPassword(req, res) {
+    try {
+      const recoverToken = req.params.recoverToken;
+      const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
+      await User.findOneAndUpdate(
+        { email: payload.email },
+        { password: req.body.password }
+      );
+      res.send({ message: "contraseña cambiada con éxito" });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+};
+
+module.exports = UserController;
