@@ -2,7 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const authentication = async (req, res) => {
+const authentication = async (req, res,next) => {
     try {
       const token = req.headers.authorization;
       const payload = jwt.verify(token, process.env.JWT_SECRET);
@@ -11,7 +11,7 @@ const authentication = async (req, res) => {
         return res.status(401).send({ message: "No estas autorizado" });
       }
       req.user = user;
-      next();
+      next()
     } catch (error) {
       console.error(error);
       return res
@@ -20,4 +20,4 @@ const authentication = async (req, res) => {
     }
   };
  
-  module.exports = { authentication, isAdmin};
+  module.exports = { authentication};

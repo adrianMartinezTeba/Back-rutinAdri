@@ -61,11 +61,11 @@ const UserController = {
   },
   async logout(req, res) {
     try {
-      //borrar todas las sesiones
+      // borrar todas las sesiones
       // await User.findByIdAndUpdate(req.user._id, {
       //     tokens: [] ,
       //   });
-      await User.findByIdAndUpdate(req.user._id, {
+      await User.findByIdAndUpdate(req.user.id, {
         $pull: { tokens: req.headers.authorization },
       });
       res.send({ message: "Desconectado con éxito" });
@@ -89,7 +89,7 @@ const UserController = {
       const recoverToken = jwt.sign({ email: req.params.email }, process.env.JWT_SECRET, {
         expiresIn: "48h",
       });
-      const url = process.env.URL + "/users/resetPassword/" + recoverToken;
+      const url = 'back-rutinadri-production.up.railway.app' + "/users/resetPassword/" + recoverToken;
       await transporter.sendMail({
         to: req.params.email,
         subject: "Recuperar contraseña",

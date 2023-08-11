@@ -8,7 +8,8 @@ const RoutineSchema = new mongoose.Schema({
       dayName: String,
       exercises: [
         {
-          exerciseId: { type:ObjectId , ref: "Exercise" }
+          exerciseId: { type:ObjectId , ref: "Exercise" },
+          series:String
         }
       ]
     }
