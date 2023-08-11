@@ -15,4 +15,4 @@ app.use("/exercises", require("./routes/exercises"));
 
 
 
-app.listen(PORT, ()=> console.log(`Server started at ${PORT}`));
+app.listen(PORT, ()=> console.log(`Server started at port ${PORT}`));
