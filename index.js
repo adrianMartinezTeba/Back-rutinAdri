@@ -15,4 +15,4 @@ app.use("/exercises", require("./routes/exercises"));
 
 
 
-app.listen('https://back-rutinadri.vercel.app', ()=> console.log(`Server started`));
+app.listen(PORT, ()=> console.log(`Server started`));
