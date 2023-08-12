@@ -14,7 +14,8 @@ const RoutineSchema = new mongoose.Schema({
       ]
     }
   ],
-  user: { type: ObjectId, ref: "User" }
+  userCreator: { type: ObjectId, ref: "User" },
+  usersFavs :[ {type: ObjectId, ref: "User" }]
 });
 
 const Routine = mongoose.model("Routine", RoutineSchema);
