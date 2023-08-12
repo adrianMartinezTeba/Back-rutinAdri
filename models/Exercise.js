@@ -4,7 +4,7 @@ const ExerciseSchema = new mongoose.Schema({
   name: String,
   description: String,
   muscleZonePrincipal: String,
-  muscleZoneSecundaries: [{String}],
+  muscleZoneSecundaries: [String],
   difficulty: String,
   image: String,
   demoVideoLink: String,
