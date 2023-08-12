@@ -7,7 +7,7 @@ const ExerciseSchema = new mongoose.Schema({
   muscleZoneSecundaries: [String],
   difficulty: String,
   imageMZP: String,
-  videoLink: String,
+  videoId: String,
   // Otros campos si es necesario
 });
 
