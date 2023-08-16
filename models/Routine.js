@@ -9,7 +9,8 @@ const RoutineSchema = new mongoose.Schema({
       exercises: [
         {
           exerciseId: { type:ObjectId , ref: "Exercise" },
-          series:String
+          series:String,
+          notes:String,
         }
       ]
     }
