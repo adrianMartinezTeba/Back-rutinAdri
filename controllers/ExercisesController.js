@@ -1,13 +1,13 @@
 const Exercise = require("../models/Exercise");
 
 const ExerciseController = {
-  async createExercise(req, res, next) {
+  async createExercise(req, res) {
     try {
       const exercise = await Exercise.create(req.body);
       res.status(201).send({ message: "Ejercicio creado con éxito", exercise });
     } catch (error) {
       console.error(error);
-      next(error);
+  
     }
   },
 
