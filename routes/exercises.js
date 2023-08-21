@@ -8,5 +8,9 @@ router.put("/update/:_id", ExerciseController.updateExercise)
 router.get("/byId/:_id", ExerciseController.getExerciseById)
 router.get("/byName/:name", ExerciseController.getExerciseByName)
 router.get('/all',ExerciseController.getExercises)
+router.get("/byMuscleZonePrincipal/:muscleZone", ExerciseController.getExercisesByMuscleZonePrincipal);
+router.get("/byMuscleZoneSecundaries/:muscleZone", ExerciseController.getExercisesByMuscleZoneSecundaries);
+router.get("/byDifficulty/:difficulty", ExerciseController.getExercisesByDifficulty);
+router.get("/byType/:type", ExerciseController.getExercisesByType);
 
 module.exports = router
