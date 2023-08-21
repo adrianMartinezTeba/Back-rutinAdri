@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 
 const ExerciseSchema = new mongoose.Schema({
-  place:String,
+  equipment: String,
   name: String,
   description: String,
   muscleZonePrincipal: String,
   muscleZoneSecundaries: String,
   difficulty: String,
-  imageMZP: String,
   videoId: String,
   // Otros campos si es necesario
 });
