@@ -79,11 +79,11 @@ const ExerciseController = {
       res.status(500).send(error);
     }
   },
-  async  getExercisesByType(req, res) {
+  async  getExercisesByEquipment(req, res) {
     try {
-      const type = req.params.type; // Obtén el valor del parámetro desde la URL
+      const equipment = req.params.equipment; // Obtén el valor del parámetro desde la URL
   
-      const exercises = await Exercise.find({ type });
+      const exercises = await Exercise.find({ equipment:equipment });
   
       if (exercises.length > 0) {
         res.send(exercises);

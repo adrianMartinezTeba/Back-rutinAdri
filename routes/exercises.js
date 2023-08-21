@@ -10,6 +10,6 @@ router.get("/byId/:_id", ExerciseController.getExerciseById)
 router.get("/byName/:name", ExerciseController.getExerciseByName)
 router.get("/byMuscleZonePrincipal/:muscleZone", ExerciseController.getExercisesByMuscleZonePrincipal);
 router.get("/byDifficulty/:difficulty", ExerciseController.getExercisesByDifficulty);
-router.get("/byType/:type", ExerciseController.getExercisesByType);
+router.get("/byEquipment/:equipment", ExerciseController.getExercisesByType);
 
 module.exports = router
