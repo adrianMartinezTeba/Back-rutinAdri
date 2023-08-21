@@ -98,6 +98,22 @@ const ExerciseController = {
       res.status(500).send(error);
     }
   },
+  async  getExercisesByType(req, res) {
+    try {
+      const type = req.params.type; // Obtén el valor del parámetro desde la URL
+  
+      const exercises = await Exercise.find({ type });
+  
+      if (exercises.length > 0) {
+        res.send(exercises);
+      } else {
+        res.status(404).send({ message: "No se encontraron ejercicios para la dificultad proporcionada" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  },
   async updateExercise(req, res) {
     try {
       const updatedExercise = await Exercise.findByIdAndUpdate(
