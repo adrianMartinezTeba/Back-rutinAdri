@@ -33,26 +33,14 @@ const ExerciseController = {
   async getExerciseByName(req, res) {
     try {
       const exerciseName = req.params.name; // Obtén el nombre del ejercicio de los parámetros de la URL
-      const { name } = req.query; // Obtén el parámetro de búsqueda de la URL
-
-      let exercises;
-
-      if (name) {
-        exercises = await Exercise.find({ name: { $regex: name, $options: "i" } }); // Búsqueda de ejercicios por nombre
+  
+      const exercises = await Exercise.find({ name: { $regex: exerciseName, $options: "i" } }); // Búsqueda de ejercicios que contengan las palabras proporcionadas
+  
+      if (exercises.length > 0) {
+        res.send(exercises); // Si se encuentran ejercicios, envíalos como respuesta
       } else {
-        // Si no se proporciona un parámetro de búsqueda, busca el ejercicio exacto por nombre
-       exercises = await Exercise.findOne({ name: exerciseName });
-
-        if (exercises) {
-          res.send(exercises); // Si se encuentra el ejercicio, envíalo como respuesta
-          return;
-        } else {
-          res.status(404).send({ message: "No se encontró el ejercicio" }); // Si no se encuentra, responde con un error 404
-          return;
-        }
+        res.status(404).send({ message: "No se encontraron ejercicios" }); // Si no se encuentra ningún ejercicio, responde con un error 404
       }
-
-      res.send(exercises); // Si se encuentra algún ejercicio con la búsqueda por nombre, envía como respuesta
     } catch (error) {
       console.error(error);
       res.status(500).send(error);
