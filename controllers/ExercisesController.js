@@ -86,7 +86,7 @@ const ExerciseController = {
     try {
       const difficulty = req.params.difficulty; // Obtén el valor del parámetro desde la URL
   
-      const exercises = await Exercise.find({ difficulty });
+      const exercises = await Exercise.find({ difficulty: difficulty });
   
       if (exercises.length > 0) {
         res.send(exercises);
