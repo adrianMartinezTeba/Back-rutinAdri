@@ -62,25 +62,6 @@ const ExerciseController = {
       res.status(500).send(error);
     }
   },
-  
-  // Controlador para buscar ejercicios por muscleZoneSecundaries
-  async  getExercisesByMuscleZoneSecundaries(req, res) {
-    try {
-      const muscleZone = req.params.muscleZone; // Obtén el valor del parámetro desde la URL
-  
-      const exercises = await Exercise.find({ muscleZoneSecundaries: muscleZone });
-  
-      if (exercises.length > 0) {
-        res.send(exercises);
-      } else {
-        res.status(404).send({ message: "No se encontraron ejercicios para la zona muscular secundaria proporcionada" });
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
-    }
-  },
-  
   // Controlador para buscar ejercicios por dificultad
   async  getExercisesByDifficulty(req, res) {
     try {
